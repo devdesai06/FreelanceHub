@@ -1,0 +1,213 @@
+/* General Layout */
+.home {
+  font-family: 'Poppins', sans-serif;
+  color: #222;
+  background-color: #fff;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(to right,rgb(225, 255, 224), #e5ffeb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px 80px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+}
+
+.hero-content h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #222;
+}
+
+.hero-content h1 span {
+  color: #1d8f5a;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.btn-primary,
+.btn-secondary {
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 30px;
+  padding: 12px 26px;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+/* Fiverr-style Buttons */
+.btn-primary {
+  background-color: #1dbf73;
+  color: white;
+  box-shadow: 0 4px 10px rgba(29, 191, 115, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: #19a965;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  border: 2px solid #1dbf73;
+  color: #1dbf73;
+}
+
+.btn-secondary:hover {
+  background-color: #1dbf73;
+  color: #fff;
+}
+.how-it-works {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #fff;
+}
+
+.how-it-works h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.how-it-works h2::after {
+  content: "";
+  width: 70px;
+  height: 3px;
+  background-color: #1dbf73;
+  display: block;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.step-card {
+  background-color: #f8f8f8;
+  border-radius: 14px;
+  width: 270px;
+  padding: 30px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(29, 191, 115, 0.15);
+  background-color: #ffffff;
+}
+
+.step-card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.step-card h3 {
+  font-size: 1.1rem;
+  color: #111;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.underline {
+  width: 35px;
+  height: 3px;
+  background-color: #1dbf73;
+  margin: 8px auto 15px;
+  border-radius: 2px;
+}
+
+.step-card p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .steps {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+/* CTA Section */
+.cta {
+  background: linear-gradient(to right, #1dbf73, #0a824c);
+  color: #fff;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.cta p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.cta .btn-primary {
+  background-color: #fff;
+  color: #1dbf73;
+  font-weight: 700;
+}
+
+.cta .btn-primary:hover {
+  background-color: #f7f7f7;
+  transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+  background-color: #222;
+  color: #ccc;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .hero-content h1 {
+    font-size: 2.3rem;
+  }
+
+  .feature-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature-card {
+    width: 90%;
+  }
+}
