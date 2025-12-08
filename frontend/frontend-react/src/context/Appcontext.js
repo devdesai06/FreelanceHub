@@ -8,7 +8,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-const backendUrl=process.env.REACT_APP_URL;
+const backendUrl=process.env.REACT_APP_BACKEND_URL;
   const getAuthState = async () => {
     try {
       const { data } = await axios.get(`${backendUrl}/api/user/is-auth`, {
