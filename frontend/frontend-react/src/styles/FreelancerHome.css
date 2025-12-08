@@ -1,0 +1,180 @@
+/* ================= FREELANCER HOME PAGE ================= */
+
+/* --- General --- */
+.freelancer-home {
+  font-family: "Poppins", sans-serif;
+  color: #222;
+  background: #fff;
+  overflow-x: hidden;
+}
+
+/* --- Hero --- */
+.hero {
+  background: linear-gradient(to right, #e8fdf2, #d6ffe9);
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.hero-content h1 span {
+  color: #1dbf73;
+}
+
+.hero-content p {
+  font-size: 1.15rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.hero-buttons h1 {
+  margin-top: 20px;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #333;
+}
+.browseprojects-btn {
+  margin-top: 30px; /* space above */
+  display: flex;
+  justify-content: center;
+}
+
+.browse-btn {
+  background-color: #1dbf73; /* Fiverr green */
+  color: white;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.browse-btn:hover {
+  background-color: #17a866; /* darker green */
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+/* --- How It Works --- */
+.how-it-works {
+  padding: 80px 20px;
+  background: #fff;
+  text-align: center;
+}
+
+.how-it-works h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.how-it-works h2::after {
+  content: "";
+  width: 70px;
+  height: 3px;
+  background: #1dbf73;
+  display: block;
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.step-card {
+  background: #f8f8f8;
+  border-radius: 14px;
+  width: 270px;
+  padding: 30px 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+.magnifying  {
+  margin-top: -10px;
+  font-size: 30px;
+}
+
+.step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(29, 191, 115, 0.15);
+}
+
+.step-card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.step-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.underline {
+  width: 35px;
+  height: 3px;
+  background-color: #1dbf73;
+  margin: 8px auto 15px;
+}
+
+/* --- CTA --- */
+.cta {
+  background: linear-gradient(to right, #1dbf73, #0a824c);
+  color: #fff;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.cta p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.cta .btn-primary {
+  background: #fff;
+  color: #1dbf73;
+  font-weight: 700;
+}
+
+.cta .btn-primary:hover {
+  background: #f7f7f7;
+  transform: scale(1.05);
+}
+
+/* --- Footer --- */
+.footer {
+  background-color: #222;
+  color: #ccc;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .steps { flex-direction: column; align-items: center; }
+  .hero-content h1 { font-size: 2.3rem; }
+}

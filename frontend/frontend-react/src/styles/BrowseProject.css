@@ -1,0 +1,302 @@
+/* ------------------------------
+   General Layout
+--------------------------------*/
+.main-container-browse-projects {
+  display: flex;
+  gap: 30px;
+  padding: 30px 40px;
+  font-family: "Inter", sans-serif;
+  color: #222;
+  background: #fafafa;
+}
+
+/* ------------------------------
+   FILTER SIDEBAR
+--------------------------------*/
+.filters {
+  max-height: 90vh;
+  overflow-y: auto;
+  width: 270px;
+  background: #fff;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid #e6e6e6;
+  height: fit-content;
+  position: sticky;
+  top: 80px;
+}
+
+.filters-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-section {
+  margin-bottom: 25px;
+}
+
+.filter-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+}
+
+.category-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.category-list input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.input-icon {
+  color: #777;
+}
+
+.apply-filters-btn {
+  width: 100%;
+  background: #1dbf73;
+  color: #fff;
+  padding: 10px 0;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+.apply-filters-btn:hover {
+  background: #17a862;
+}
+
+/* Project Type Options */
+
+.no-projects {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+.project-type-options label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.project-type-options input {
+  margin-right: 6px;
+}
+
+/* ------------------------------
+   PROJECT LIST AREA
+--------------------------------*/
+.applyFor-projects {
+  flex: 1;
+}
+
+.applyFor-projects h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+/* ------------------------------
+   SEARCH BAR
+--------------------------------*/
+.search-projects {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 12px 16px;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.search-icon {
+  color: #666;
+  font-size: 18px;
+}
+
+#search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 18px;
+}
+
+.search-btn {
+  background: #1dbf73;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.search-btn:hover {
+  background: #17a862;
+}
+
+/* ------------------------------
+   PROJECT CARDS
+--------------------------------*/
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.project-card {
+  background: #fff;
+  padding: 22px;
+  border-radius: 14px;
+  border: 1px solid #e6e6e6;
+  transition: all 0.25s ease;
+}
+
+.project-card:hover {
+  border-color: #1dbf73;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.project-title {
+  font-size: 19px;
+  font-weight: 600;
+  color: #111;
+  max-width: 70%;
+}
+
+.project-category {
+  font-size: 13px;
+  padding: 5px 10px;
+  background: #e8f9f1;
+  color: #1dbf73;
+  border-radius: 8px;
+}
+
+.project-description {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 10px 0 15px;
+  color: #555;
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.meta-item {
+  font-size: 14px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price-tag {
+  font-weight: 600;
+  color: #1dbf73;
+}
+
+.deadline svg {
+  color: #666;
+}
+
+
+
+.tag {
+  padding: 6px 12px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #444;
+  transition: 0.2s ease;
+}
+
+.tag:hover {
+  background: #dff7eb;
+  color: #1dbf73;
+}
+
+/* APPLY BUTTON */
+.apply-btn {
+  background: #1dbf73;
+  width: 120px;
+  padding: 9px 0;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.apply-btn:hover {
+  background: #17a862;
+}
+
+/* ------------------------------
+   RESPONSIVE (TABLET)
+--------------------------------*/
+@media (max-width: 992px) {
+  .main-container-browse-projects {
+    flex-direction: column;
+  }
+
+  .filters {
+    width: 100%;
+    position: relative;
+    top: 0;
+  }
+}
+
+/* ------------------------------
+   RESPONSIVE (MOBILE)
+--------------------------------*/
+@media (max-width: 600px) {
+  .search-projects {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
