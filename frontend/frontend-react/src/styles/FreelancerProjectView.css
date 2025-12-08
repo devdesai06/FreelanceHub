@@ -1,0 +1,41 @@
+.freelancer-project-view {
+  padding-bottom: 40px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 12px rgba(0,0,0,0.08);
+}
+
+.loading {
+  text-align: center;
+  color: #475569;
+  margin-top: 40px;
+}
+
+h1 {
+  font-size: 28px;
+  color: #1e293b;
+  margin-bottom: 15px;
+}
+
+.description {
+  color: #475569;
+  margin-bottom: 20px;
+}
+
+.details-box p {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.details-box strong {
+  color: #1e293b;
+}

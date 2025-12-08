@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/ClientHome.css';
 import { Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
@@ -6,7 +7,7 @@ import { AppContext } from '../../context/Appcontext';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 const ClientHome = () => {
-
+const navigate=useNavigate();
   const categories = [
     "Web Development",
     "Mobile Apps",
@@ -172,8 +173,8 @@ const ClientHome = () => {
             {projects.length > 0 ? (
               <ul>
                 {projects.map((project) => (
-                  <li key={project._id} className="project-card">
-                    <h3>{project.title}</h3>
+                  <li key={project._id} className="project-card" onClick={()=>navigate(`/seeProject/${project._id}`)}>
+                    <h3  >{project.title}</h3>
                     <p>{project.description}</p>
                     <p><strong>Budget:</strong> ₹{project.budget}</p>
                     <p><strong>Deadline:</strong> {project.deadline || 'N/A'}</p>

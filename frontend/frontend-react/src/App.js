@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Home from "./pages/Home";
-import ClientProfile from './pages/Profiles/ClientProfile'
-import FreelancerProfile from './pages/Profiles/freelancerProfile'
-
-import ApplyProject from './pages/Freelancer/ApplyProject.jsx'
-import FreelancerPage from './pages/Freelancer/BrowseProjects.jsx'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import ClientProfile from "./pages/Profiles/ClientProfile";
+import FreelancerProfile from "./pages/Profiles/freelancerProfile";
+import ViewBids from "./pages/Client/seeProjects.jsx";
+import ApplyProject from "./pages/Freelancer/ApplyProject.jsx";
+import FreelancerPage from "./pages/Freelancer/BrowseProjects.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { AppContextProvider } from "./context/Appcontext";
-
+import FreelancerProjectView from "./pages/Freelancer/FreelancerProjectView.jsx";
 function App() {
   return (
     <Router>
@@ -22,11 +22,16 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path='browseProjects' element={<FreelancerPage />} />
+            <Route path="browseProjects" element={<FreelancerPage />} />
             <Route path="/profile/client" element={<ClientProfile />} />
+            <Route path="/seeProject/:projectId" element={<ViewBids />} />
             <Route path="/profile/freelancer" element={<FreelancerProfile />} />
             <Route path="/apply/:projectId" element={<ApplyProject />} />
 
+            <Route
+              path="/freelancer/project/:projectId"
+              element={<FreelancerProjectView />}
+            />
             <Route path="*" element={<h1>404 - Page Not Found</h1>} />
           </Routes>
         </main>

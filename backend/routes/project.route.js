@@ -7,6 +7,7 @@ import { projectAuth } from '../middlewares/projectAuth.js'
 import { getProjects } from '../controllers/project.controller.js'
 import { getProjectByUser } from '../controllers/project.controller.js'
 import { searchProjects } from '../controllers/project.controller.js'
+import { getAssignedProjects } from '../controllers/project.controller.js'
 const router = express.Router()
 
 router.get('/getProjectsByUser', projectAuth, getProjectByUser)
@@ -16,4 +17,6 @@ router.get('/getProjects', getProjects)
 router.get('/searchProjects', searchProjects)
 router.put('/updateProject/:id', updateProject)
 router.delete('/deleteProject/:id', deleteProject)
+router.get("/assigned/:freelancerId", getAssignedProjects);
+
 export default router;

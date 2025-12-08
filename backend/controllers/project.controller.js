@@ -91,17 +91,20 @@ export const getProjectByUser = async (req, res) => {
 export const getProjectById = async (req, res) => {
     try {
         const project = await Project.findById(req.params.id)
+            .populate("createdBy", "name email")
+            .populate("assignedTo", "name email");
+
         if (!project) {
-
-            return res.status(400).json({ success: false, message: "Project  not found" });
+            return res.status(400).json({ success: false, message: "Project not found" });
         }
-        res.status(200).json(project);
-    }
-    catch (err) {
-        res.status(404).json({ err: err.message });
-    }
 
-}
+        res.status(200).json({ success: true, project });
+
+    } catch (err) {
+        res.status(500).json({ err: err.message });
+    }
+};
+
 
 export const updateProject = async (req, res) => {
     try {
@@ -140,4 +143,20 @@ export const deleteProject = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+export const getAssignedProjects = async (req, res) => {
+  try {
+    const freelancerId = req.params.freelancerId;
+
+    const projects = await Project.find({ assignedTo: freelancerId })
+      .populate( "createdBy","name email")
+      .select("title description budget status assignedTo createdAt createdBy");
+
+    res.json({ success: true, projects });
+
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
 

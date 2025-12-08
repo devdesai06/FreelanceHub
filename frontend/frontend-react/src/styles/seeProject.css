@@ -1,0 +1,240 @@
+/* --- Global Styles for Bids Page --- */
+
+.view-bids-page {
+  /* Use a modern, easy-to-read font */
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f7f7f7; /* Light background for the whole page */
+  min-height: 100vh;
+  padding-bottom: 50px; /* Space at the bottom */
+}
+
+/* --- Header Section --- */
+
+.bids-header {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px 20px 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #1dbf73; /* Fiverr green */
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.back-btn:hover {
+  color: #0d995c;
+}
+
+.bids-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #404145; /* Dark grey for heading */
+  margin: 0 0 5px 0;
+}
+
+.bids-header .subtitle {
+  color: #62646a;
+  font-size: 16px;
+  margin-top: 0;
+}
+
+/* --- Bids Container --- */
+
+.bids-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.loading {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #62646a;
+}
+
+/* --- No Bids Section --- */
+
+.no-bids {
+  text-align: center;
+  padding: 50px 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.no-bids img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.no-bids h2 {
+  color: #404145;
+  margin-bottom: 10px;
+}
+
+.no-bids p {
+  color: #62646a;
+}
+
+/* --- Bid Card --- */
+
+.bid-card {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bid-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Freelancer Info */
+
+.freelancer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.freelancer-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  border: 2px solid #1dbf73;
+}
+
+.freelancer-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #404145;
+  margin: 0;
+}
+
+/* Proposal Text */
+
+.proposal-text {
+  font-size: 16px;
+  color: #62646a;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* Bid Footer (Amount and Button) */
+
+.bid-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.bid-amount {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1dbf73; /* Fiverr Green */
+}
+
+/* --- Action Buttons --- */
+
+.accept-btn {
+  background-color: #1dbf73;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.accept-btn:hover:not(:disabled) {
+  background-color: #0d995c;
+}
+
+.accept-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.accepted-btn {
+  background-color: #404145; /* Darker grey to signify status */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: default;
+  opacity: 0.8;
+}
+
+/* --- Responsive Adjustments (Mobile) --- */
+
+@media (max-width: 600px) {
+  .bids-header {
+    padding: 15px 15px 10px 15px;
+  }
+
+  .bids-header h1 {
+    font-size: 26px;
+  }
+
+  .bids-container {
+    padding: 0 15px;
+  }
+
+  .bid-card {
+    padding: 15px;
+  }
+
+  .freelancer-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .freelancer-name {
+    font-size: 16px;
+  }
+
+  .proposal-text {
+    font-size: 15px;
+  }
+
+  .bid-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .bid-amount {
+    font-size: 20px;
+  }
+
+  .accept-btn,
+  .accepted-btn {
+    width: 100%; /* Full width button on small screens */
+    text-align: center;
+  }
+}
