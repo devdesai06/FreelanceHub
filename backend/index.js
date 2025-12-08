@@ -16,12 +16,12 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "https://freelance-hub-hmju.vercel.app/" 
+      "https://freelance-hub-hmju.vercel.app" // ✅ YOUR VERCEL FRONTEND
     ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
   })
 );
+
 
 
 
@@ -31,6 +31,9 @@ app.use(express.json());
 app.use('/api/user',userRoutes)
 app.use('/api/project',projectRoutes)
 app.use('/api/bid',bidRoutes)
+app.get("/", (req, res) => {
+  res.send("✅ FreelanceHub Backend is Live!");
+});
 
 //database connection
 try{
