@@ -1,11 +1,18 @@
 # Dependencies
 node_modules
+backend/node_modules
+frontend/node_modules
+frontend/frontend-react/node_modules
 
-# Environment variables (SENSITIVE)
+# Environment Variables (SENSITIVE)
 .env
+backend/.env
+frontend/.env
+frontend/frontend-react/.env
+
 .env.local
-.env.production
 .env.development
+.env.production
 
 # Build output
 dist
@@ -15,6 +22,6 @@ build
 npm-debug.log*
 yarn-debug.log*
 
-# OS files
+# OS system files
 .DS_Store
 Thumbs.db
