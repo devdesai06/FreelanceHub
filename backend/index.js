@@ -11,13 +11,19 @@ import projectRoutes from './routes/project.route.js'
 import bidRoutes from './routes/bid.route.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://freelance-hub-6j9m.vercel.app",
-  ],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://freelance-hub-hmju.vercel.app/" 
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
+
+
 
 app.use(cookieParser());
 //routing middleware
