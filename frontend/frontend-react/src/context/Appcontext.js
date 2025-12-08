@@ -8,7 +8,7 @@ export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-const backendUrl=process.env.REACT_APP_BACKEND_URL;
+  const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const getAuthState = async () => {
     try {
       const { data } = await axios.get(`${backendUrl}/api/user/is-auth`, {
@@ -47,7 +47,7 @@ const backendUrl=process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
     getAuthState();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value = {
@@ -59,9 +59,5 @@ const backendUrl=process.env.REACT_APP_BACKEND_URL;
     getUserData,
   };
 
-  return (
-    <AppContext.Provider value={value}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

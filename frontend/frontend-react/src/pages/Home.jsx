@@ -8,6 +8,7 @@ import Navbar from "../components/Navbar";
 const Home = () => {
   const { userData } = useContext(AppContext);
 
+
   const images = [
     '/assests.jpg',
     '/assests2.jpg',

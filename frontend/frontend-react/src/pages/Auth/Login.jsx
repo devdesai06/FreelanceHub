@@ -15,7 +15,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+console.log("BACKEND => ", process.env.REACT_APP_BACKEND_URL);
     try {
       const { data } = await axios.post(
         `${backendUrl}/api/user/login`,
@@ -41,6 +41,8 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+
 
   return (
     <div className="login-page">
