@@ -255,3 +255,39 @@ export const isAuthenticated = async (req, res) => {
     res.status(500).json({ success: false, message: "Error checking authentication" });
   }
 };
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id; // from isAuth middleware
+    const { name, bio } = req.body;
+
+    if (!name || name.trim() === "") {
+      return res.status(400).json({
+        success: false,
+        message: "Name cannot be empty.",
+      });
+    }
+
+    // Update user fields
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        name,
+        bio: bio || "",
+      },
+      { new: true } // return updated user
+    ).select("-password"); // never return password
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      user: updatedUser,
+    });
+
+  } catch (error) {
+    console.log("Update Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while updating profile.",
+    });
+  }
+};

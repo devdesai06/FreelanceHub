@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import "../../styles/ClientProfile.css";
-import { AppContext } from '../../context/Appcontext';
+// import { AppContext } from '../../context/Appcontext';
 
 export default function ClientProfile() {
-    const {userData}= useContext(AppContext)
+    // const {userData}= useContext(AppContext)
     
   return (
     <div>

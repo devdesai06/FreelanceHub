@@ -2,63 +2,70 @@ import React, { useContext } from "react";
 import "../../styles/FreelancerProfile.css";
 import { AppContext } from '../../context/Appcontext';
 import { useNavigate } from "react-router-dom";
+
 export default function FreelancerProfile() {
-    const { userData } = useContext(AppContext)
-    const navigate = useNavigate()
-    return (
-        <div className="fp-wrapper">
-            <button className="back-arrow" onClick={() => navigate("/")}>
-                ← Back
-            </button>
-            {/* Top Profile Section */}
-            <section className="fp-top">
-                <img
-                    className="fp-avatar"
-                    src="https://i.pravatar.cc/150?img=12"
-                    alt="freelancer"
-                />
+  const { userData } = useContext(AppContext);
+  const navigate = useNavigate();
 
-                <h1 className="fp-name">Dev Desai</h1>
-                <p className="fp-title">Full-Stack Developer</p>
+  // FIRST LETTER AVATAR
+  const avatarLetter = userData?.name?.charAt(0)?.toUpperCase();
 
-                <div className="fp-stats">
-                    <div className="fp-stat">
-                        <div className="fp-value">4.9</div>
-                        <div className="fp-label">Rating</div>
-                    </div>
+  // If your backend sends: userData.projects = [{title, description}, ...]
+  const projects = userData?.projects || [];
 
-                    <div className="fp-stat">
-                        <div className="fp-value">128</div>
-                        <div className="fp-label">Reviews</div>
-                    </div>
+  return (
+    <div className="fp-wrapper">
 
-                    <div className="fp-stat">
-                        <div className="fp-value">342</div>
-                        <div className="fp-label">Completed</div>
-                    </div>
-                </div>
+      {/* Back Button */}
+      <button className="back-arrow" onClick={() => navigate(-1)}>
+        ← Back
+      </button>
 
-                <p className="fp-about">
-                    I build modern, fast, and clean web applications using React, Node.js,
-                    and Express. Focused on delivering quality work and great user
-                    experiences.
-                </p>
-            </section>
+      {/* Top Profile Section */}
+      <section className="fp-top">
 
-            {/* Projects/Gigs Section */}
-            <section className="fp-projects">
-                <h2 className="fp-section-title">Projects</h2>
+        {/* Avatar */}
+        <div className="fp-avatar">{avatarLetter}</div>
 
-                <div className="fp-grid">
+        <h1 className="fp-name">{userData?.name}</h1>
+        <p className="fp-title">
+          {userData?.skills?.join(" • ") || "Freelancer"}
+        </p>
 
-                    <div className="fp-card">
-
-                        <h3 className="fp-card-title">Landing Page in React</h3>
-                    </div>
-                </div>
-            </section>
+        <div className="fp-stats">
+          <div className="fp-stat">
+            <div className="fp-value">
+              {userData?.completedProjects || 0}
+            </div>
+            <div className="fp-label">Completed</div>
+          </div>
         </div>
-    )
+
+        <p className="fp-about">
+          {userData?.bio ||
+            "No bio added yet. Update your profile to tell clients more about yourself!"}
+        </p>
+      </section>
+
+      {/* Projects Section */}
+      <section className="fp-projects">
+        <h2 className="fp-section-title">Projects</h2>
+
+        <div className="fp-grid">
+          {projects.length === 0 ? (
+            <p className="fp-no-projects">No projects added yet.</p>
+          ) : (
+            projects.map((p, index) => (
+              <div className="fp-card" key={index}>
+                <h3 className="fp-card-title">{p.title}</h3>
+                {p.description && (
+                  <p className="fp-card-desc">{p.description}</p>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </section>
+    </div>
+  );
 }
-
-

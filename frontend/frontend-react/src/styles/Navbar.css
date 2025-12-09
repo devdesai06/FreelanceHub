@@ -34,6 +34,7 @@
 }
 
 .navbar-title {
+  margin-top: 25px;
   font-size: 1.6rem;
   color: var(--fiverr-green);
   font-weight: 800;

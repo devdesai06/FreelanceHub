@@ -1,4 +1,4 @@
-
+import { rateLimit } from 'express-rate-limit'
 import express from 'express'
 import { config } from 'dotenv'
 import  mongoose  from 'mongoose'
@@ -22,7 +22,14 @@ app.use(
   })
 );
 
-
+const limiter=rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit:100,
+})
+app.use(limiter)
+app.get("/", (req, res) => {
+  res.send("✅ FreelanceHub Backend is Live!");
+});
 
 
 app.use(cookieParser());
@@ -31,18 +38,23 @@ app.use(express.json());
 app.use('/api/user',userRoutes)
 app.use('/api/project',projectRoutes)
 app.use('/api/bid',bidRoutes)
-app.get("/", (req, res) => {
-  res.send("✅ FreelanceHub Backend is Live!");
-});
+
+
+
 
 //database connection
-try{
-    mongoose.connect(process.env.MONGO_URL)
-    console.log("Connected to MongoDB ")
-
-}catch(err){
-    console.log("Error message: ",err)
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URL)
+    console.log("Connected to MongoDB")
+  } catch (err) {
+    console.error("MongoDB connection failed:", err.message)
+    process.exit(1)
+  }
 }
+
+connectDB()
+
 
 app.listen(PORT,()=>{
     console.log(`Server running on port - ${PORT}`)

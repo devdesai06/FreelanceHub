@@ -179,6 +179,7 @@ body {
 
 /* Category Grid */
 .category-grid {
+  
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
@@ -196,6 +197,7 @@ body {
 }
 
 .category-card:hover {
+  cursor: pointer;
   transform: translateY(-8px) scale(1.02);
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
