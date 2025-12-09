@@ -1,20 +1,24 @@
-import { User } from '../models/model.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer'
+import { User } from "../models/model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 //Register
 export const UserSignUp = async (req, res) => {
   try {
-    const { name, email, password ,role} = req.body;
+    const { name, email, password, role } = req.body;
     if (!name || !email || !password || !role) {
-      return res.status(404).json({ success: false, message: "User data not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User data not found" });
     }
-    const userAlreadyExists = await User.findOne({ email })
+    const userAlreadyExists = await User.findOne({ email });
     if (userAlreadyExists) {
-      return res.status(400).json({ success: false, message: "User already exists. Login " })
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists. Login " });
     }
-    const hashedpassword = await bcrypt.hash(password, 10)
+    const hashedpassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       name,
@@ -26,22 +30,23 @@ export const UserSignUp = async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '7d' })
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,       // ✅ required for cross-origin cookies in Chrome
-      sameSite: "none",   // ✅ required for localhost:5173 <-> 5000
-      path: "/",             // send cookie to all routes
-      maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days
-    })
-    return res.status(201).json({ success: true, message: 'User registered successfully' });
-
-  }
-  catch (error) {
+      secure: true, // ✅ required for cross-origin cookies in Chrome
+      sameSite: "none", // ✅ required for localhost:5173 <-> 5000
+      path: "/", // send cookie to all routes
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+    return res
+      .status(201)
+      .json({ success: true, message: "User registered successfully" });
+  } catch (error) {
     res.status(404).json({ success: false, error: error.message });
   }
-}
-
+};
 
 export const sendOtp = async (req, res) => {
   try {
@@ -49,11 +54,15 @@ export const sendOtp = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     if (user.isVerified) {
-      return res.status(400).json({ success: false, message: "User already verified" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already verified" });
     }
 
     //  Generate and save OTP
@@ -102,10 +111,15 @@ export const sendOtp = async (req, res) => {
       message: "Verification email sent successfully!",
       otp, // remove in production
     });
-
   } catch (err) {
     console.error("OTP Send Error:", err);
-    return res.status(500).json({ success: false, message: "Internal server error", error: err.message });
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: "Internal server error",
+        error: err.message,
+      });
   }
 };
 
@@ -115,10 +129,15 @@ export const verifyEmail = async (req, res) => {
     const { email, otp } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ success: false, message: "User not found" });
+    if (!user)
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
 
     if (user.isVerified) {
-      return res.status(400).json({ success: false, message: "User already verified" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already verified" });
     }
 
     if (user.otp !== parseInt(otp)) {
@@ -136,21 +155,26 @@ export const verifyEmail = async (req, res) => {
     await user.save();
 
     // ✅ Automatically log them in by setting JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+      expiresIn: "7d",
+    });
     res.cookie("token", token, {
-
       httpOnly: true,
-      secure: true,       // ✅ required for cross-origin cookies in Chrome
-      sameSite: "none",   // ✅ required for localhost:5173 <-> 5000
+      secure: true, // ✅ required for cross-origin cookies in Chrome
+      sameSite: "none", // ✅ required for localhost:5173 <-> 5000
       path: "/",
 
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({ success: true, message: "Email verified successfully!" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Email verified successfully!" });
   } catch (error) {
     console.error("Verify email error:", error);
-    return res.status(500).json({ success: false, message: "Server error", error: error.message });
+    return res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
   }
 };
 
@@ -162,13 +186,17 @@ export const UserSignIn = async (req, res) => {
     // find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ success: false, message: 'User not found' });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
     }
 
     // compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     const token = jwt.sign(
@@ -177,11 +205,10 @@ export const UserSignIn = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-  
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,       // ✅ required for cross-origin cookies in Chrome
-      sameSite: "none",   // ✅ required for localhost:5173 <-> 5000
+      secure: true, // ✅ required for cross-origin cookies in Chrome
+      sameSite: "none", // ✅ required for localhost:5173 <-> 5000
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -193,49 +220,49 @@ export const UserSignIn = async (req, res) => {
         id: user._id,
         name: user.name,
         role: user.role,
-        email: user.email
-      }
-    })
-  }
-  catch (error) {
+        email: user.email,
+      },
+    });
+  } catch (error) {
     res.status(404).json({ "Error in Login": error.message });
   }
-}
+};
 export const logout = async (req, res) => {
   try {
-
-    res.clearCookie('token', {
+    res.clearCookie("token", {
       httpOnly: true,
-      secure: true,       // ✅ required for cross-origin cookies in Chrome
-      sameSite: "none",   // ✅ required for localhost:5173 <-> 5000
+      secure: true, // ✅ required for cross-origin cookies in Chrome
+      sameSite: "none", // ✅ required for localhost:5173 <-> 5000
       path: "/",
-    })
+    });
 
-    return res.json({ success: true, message: 'Logged Out' })
+    return res.json({ success: true, message: "Logged Out" });
+  } catch (err) {
+    res.status(400).json({ success: false, message: `Error in logout:${err}` });
   }
-  catch (err) {
-    res.status(400).json({ success: false, message: `Error in logout:${err}` })
-  }
-}
+};
 //getprofile
 export const getprofile = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("-password -otp -otpExpiry");
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    const user = await User.findById(req.userId).select(
+      "-password -otp -otpExpiry"
+    );
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      user:
-      {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        isVerified: user.isVerified
-      }
+      user,
     });
   } catch (error) {
-    res.status(500).json({ success: false, "Error in getting Profile": error.message });
+    res.status(500).json({
+      success: false,
+      message: "Error in getting profile",
+      error: error.message,
+    });
   }
 };
 
@@ -252,7 +279,9 @@ export const isAuthenticated = async (req, res) => {
     return res.json({ success: true, userId: decoded.id });
   } catch (error) {
     console.error("Auth Check Error:", error);
-    res.status(500).json({ success: false, message: "Error checking authentication" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error checking authentication" });
   }
 };
 export const updateProfile = async (req, res) => {
@@ -278,7 +307,6 @@ export const updateProfile = async (req, res) => {
       message: "Profile updated successfully.",
       user: updatedUser,
     });
-
   } catch (error) {
     console.log("Update Error:", error);
     return res.status(500).json({

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { use, useContext, useEffect } from "react";
 import "../../styles/FreelancerProfile.css";
 import { AppContext } from '../../context/Appcontext';
 import { useNavigate } from "react-router-dom";
