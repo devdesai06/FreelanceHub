@@ -21,7 +21,8 @@ export default function ClientSettings() {
       );
 
       if (data.success) {
-        setUserData(prev => ({ ...prev, name, bio }));
+        setUserData(data.user);
+
         toast.success("Client profile updated successfully!", { theme: "colored" });
       }
     } catch (error) {

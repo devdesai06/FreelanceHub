@@ -21,7 +21,8 @@ export default function FreelancerSettings() {
       );
 
       if (data.success) {
-        setUserData(prev => ({ ...prev, name, bio }));
+        setUserData(data.user);
+
         toast.success("Profile updated successfully!", { theme: "colored" });
       }
     } catch (error) {
