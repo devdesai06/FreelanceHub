@@ -257,7 +257,7 @@ export const isAuthenticated = async (req, res) => {
 };
 export const updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // from isAuth middleware
+    const userId = req.userId; // from authMiddleware
     const { name, bio } = req.body;
 
     if (!name || name.trim() === "") {
@@ -267,15 +267,11 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-    // Update user fields
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      {
-        name,
-        bio: bio || "",
-      },
-      { new: true } // return updated user
-    ).select("-password"); // never return password
+      { name, bio: bio || "" },
+      { new: true }
+    ).select("-password");
 
     return res.status(200).json({
       success: true,
