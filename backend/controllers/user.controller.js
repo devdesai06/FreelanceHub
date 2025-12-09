@@ -51,7 +51,7 @@ export const UserSignUp = async (req, res) => {
 export const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
-
+    console.log(process.env.gmailAppPass);
     const user = await User.findOne({ email });
     if (!user) {
       return res
@@ -113,13 +113,11 @@ export const sendOtp = async (req, res) => {
     });
   } catch (err) {
     console.error("OTP Send Error:", err);
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error",
-        error: err.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: err.message,
+    });
   }
 };
 
