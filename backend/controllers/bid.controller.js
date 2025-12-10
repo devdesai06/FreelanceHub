@@ -3,18 +3,31 @@ import { Project } from "../models/model.js";
 import { User } from "../models/model.js";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
+
+// ✅ BREVO TRANSPORTER (CREATE ONCE)
+const transporter = nodemailer.createTransport({
+  host: process.env.BREVO_HOST,   // smtp-relay.brevo.com
+  port: process.env.BREVO_PORT,   // 587
+  secure: false,
+  auth: {
+    user: process.env.BREVO_USER,
+    pass: process.env.BREVO_PASS,
+  },
+});
+
+// ===================================================
+// PLACE BID
+// ===================================================
 export const placeBid = async (req, res) => {
   try {
     const { projectId } = req.params;
     const { freelancerId, amount, proposal } = req.body;
 
-    // Check project exists
     const project = await Project.findById(projectId);
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    // Create bid
     const newBid = new Bid({
       project: projectId,
       freelancer: freelancerId,
@@ -22,20 +35,25 @@ export const placeBid = async (req, res) => {
       proposal,
       status: "pending",
     });
+
     await newBid.save();
 
-    // Add bid to project's bids array
     project.bids.push(newBid._id);
     await project.save();
 
-    res
-      .status(201)
-      .json({ success: true, message: "Bid placed successfully", bid: newBid });
+    res.status(201).json({
+      success: true,
+      message: "Bid placed successfully",
+      bid: newBid,
+    });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 };
 
+// ===================================================
+// GET BIDS
+// ===================================================
 export const getBids = async (req, res) => {
   try {
     const project = await Project.findById(req.params.projectId);
@@ -46,18 +64,21 @@ export const getBids = async (req, res) => {
     res.json({
       success: true,
       bids,
-      assignedTo: project?.assignedTo || null
+      assignedTo: project?.assignedTo || null,
     });
-
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
 
+// ===================================================
+// ACCEPT BID (✅ BREVO EMAIL INTEGRATED)
+// ===================================================
 export const acceptBid = async (req, res) => {
   const bidId = req.params.bidId;
   const session = await mongoose.startSession();
   session.startTransaction();
+
   try {
     const bid = await Bid.findById(bidId).session(session);
     if (!bid) {
@@ -65,11 +86,13 @@ export const acceptBid = async (req, res) => {
       session.endSession();
       return res.status(404).json({ success: false, message: "Bid not found" });
     }
+
     if (bid.status === "accepted") {
       await session.commitTransaction();
       session.endSession();
       return res.json({ success: true, message: "Bid already accepted." });
     }
+
     bid.status = "accepted";
     await bid.save({ session });
 
@@ -83,9 +106,10 @@ export const acceptBid = async (req, res) => {
     if (!project) {
       await session.abortTransaction();
       session.endSession();
-      return res
-        .status(404)
-        .json({ success: false, message: "project not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+      });
     }
 
     if (project.assignedTo) {
@@ -96,6 +120,7 @@ export const acceptBid = async (req, res) => {
         message: "A freelancer has already been assigned to this project.",
       });
     }
+
     await Project.updateOne(
       { _id: project._id },
       {
@@ -109,34 +134,28 @@ export const acceptBid = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
+
     const updatedBids = await Bid.find({ project: bid.project }).populate(
       "freelancer",
       "name email profilePic rating"
     );
 
-    //send mail to freelancer
+    // ✅ SEND EMAIL VIA BREVO (NOT GMAIL)
     const user = await User.findById(bid.freelancer);
-    const Transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "devdesai8790@gmail.com",
-        pass: process.env.gmailAppPass,
-      },
+
+    await transporter.sendMail({
+      from: '"FreelanceHub" <no-reply@freelancehub.com>',
+      to: user.email,
+      subject: "🎉 Your Bid Has Been Accepted!",
+      html: `
+        <h2>Hello ${user.name},</h2>
+        <p>Your bid on the project <strong>${project.title}</strong> has been accepted!</p>
+        <p>The client will reach out to you soon.</p>
+        <br/>
+        <p>Regards,<br/>FreelanceHub Team</p>
+      `,
     });
 
-    await Transporter.sendMail({
-      from: '"FreelanceHub" <devdesai8790@gmail.com>',
-      to: user.email,
-      subject: "Congrats!!🎉 Your Bid Has Been Accepted!",
-      html: `
-                <h2>Hello ${user.name},</h2>
-                <p>Your bid on the project <strong>${project.title}</strong> has been accepted!</p>
-                <p>Client will reach out to you soon. Please check your dashboard for updates.</p>
-                <br/>
-                <p>Regards,<br/>FreelanceHub Team</p>
-            `,
-    });
-    //return
     return res.json({
       success: true,
       message: "Bid accepted and others rejected.",
@@ -144,7 +163,7 @@ export const acceptBid = async (req, res) => {
       project: {
         id: project._id,
         status: project.status,
-        acceptedFreelancer: project.acceptedFreelancer,
+        assignedTo: project.assignedTo,
       },
     });
   } catch (err) {
