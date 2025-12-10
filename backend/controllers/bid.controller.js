@@ -2,18 +2,7 @@ import { Bid } from "../models/model.js";
 import { Project } from "../models/model.js";
 import { User } from "../models/model.js";
 import mongoose from "mongoose";
-import nodemailer from "nodemailer";
-
-// ✅ BREVO TRANSPORTER (CREATE ONCE)
-const transporter = nodemailer.createTransport({
-  host: process.env.BREVO_HOST,   // smtp-relay.brevo.com
-  port: process.env.BREVO_PORT,   // 587
-  secure: false,
-  auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_PASS,
-  },
-});
+import fetch from "node-fetch";
 
 // ===================================================
 // PLACE BID
@@ -72,7 +61,7 @@ export const getBids = async (req, res) => {
 };
 
 // ===================================================
-// ACCEPT BID (✅ BREVO EMAIL INTEGRATED)
+// ACCEPT BID AND SEND EMAIL
 // ===================================================
 export const acceptBid = async (req, res) => {
   const bidId = req.params.bidId;
@@ -140,25 +129,33 @@ export const acceptBid = async (req, res) => {
       "name email profilePic rating"
     );
 
-    // ✅ SEND EMAIL VIA BREVO (NOT GMAIL)
     const user = await User.findById(bid.freelancer);
 
-    await transporter.sendMail({
-      from: '"FreelanceHub" <no-reply@freelancehub.com>',
-      to: user.email,
-      subject: "🎉 Your Bid Has Been Accepted!",
-      html: `
-        <h2>Hello ${user.name},</h2>
-        <p>Your bid on the project <strong>${project.title}</strong> has been accepted!</p>
-        <p>The client will reach out to you soon.</p>
-        <br/>
-        <p>Regards,<br/>FreelanceHub Team</p>
-      `,
+    // Send email using Brevo HTTP API
+    await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": process.env.BREVO_API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sender: { name: "FreelanceHub", email: "no-reply@freelancehub.com" },
+        to: [{ email: user.email }],
+        subject: "Your Bid Has Been Accepted",
+        htmlContent: `
+          <div>
+            <h2>Hello ${user.name},</h2>
+            <p>Your bid on the project <strong>${project.title}</strong> has been accepted.</p>
+            <p>The client will reach out to you soon.</p>
+            <p>Regards,<br/>FreelanceHub Team</p>
+          </div>
+        `,
+      }),
     });
 
     return res.json({
       success: true,
-      message: "Bid accepted and others rejected.",
+      message: "Bid accepted and others rejected",
       bids: updatedBids,
       project: {
         id: project._id,
