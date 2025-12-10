@@ -17,13 +17,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { AppContextProvider } from "./context/Appcontext";
 import FreelancerProjectView from "./pages/Freelancer/FreelancerProjectView.jsx";
 function App() {
-  console.log(">>>> BACKEND_URL:", process.env.REACT_APP_BACKEND_URL);
+  console.log(">BACKEND_URL:", process.env.REACT_APP_BACKEND_URL);
 
   return (
+
     <Router>
       <AppContextProvider>
         <ToastContainer />
         <main className="main-content">
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
