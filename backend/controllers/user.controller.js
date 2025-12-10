@@ -126,8 +126,7 @@ export const sendOtp = async (req, res) => {
         <td style="padding:10px 20px; color:#777; font-size:14px;">
           <p>This OTP is valid for <b>10 minutes</b>.</p>
           <p>If you didn’t request this, simply ignore this email.</p>
-          <p style="margin-top:15px; color:#FF5722;"><b>⚠️ Don’t see the email?</b>  
-             Check your <b>Spam</b> or <b>Promotions</b> folder.</p>
+          
         </td>
       </tr>
 
