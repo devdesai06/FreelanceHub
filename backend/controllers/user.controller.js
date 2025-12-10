@@ -11,12 +11,16 @@ export const UserSignUp = async (req, res) => {
     const { name, email, password, role } = req.body;
 
     if (!name || !email || !password || !role) {
-      return res.status(400).json({ success: false, message: "User data not found" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User data not found" });
     }
 
     const userAlreadyExists = await User.findOne({ email });
     if (userAlreadyExists) {
-      return res.status(400).json({ success: false, message: "User already exists. Login" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists. Login" });
     }
 
     const hashedpassword = await bcrypt.hash(password, 10);
@@ -41,7 +45,9 @@ export const UserSignUp = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(201).json({ success: true, message: "User registered successfully" });
+    return res
+      .status(201)
+      .json({ success: true, message: "User registered successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -56,11 +62,15 @@ export const sendOtp = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     if (user.isVerified) {
-      return res.status(400).json({ success: false, message: "User already verified" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already verified" });
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000);
@@ -75,17 +85,61 @@ export const sendOtp = async (req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sender: { name: "FreelanceHub", email: "devdesai8790@gmail.com" }, 
+        sender: { name: "FreelanceHub", email: "devdesai8790@gmail.com" },
         to: [{ email }],
         subject: "Verify Your Email - FreelanceHub",
         htmlContent: `
-          <div>
-            <h2>Email Verification</h2>
-            <p>Your OTP is:</p>
-            <h1>${otp}</h1>
-            <p>This OTP is valid for 10 minutes.</p>
+  <div style="font-family: Arial, sans-serif; background:#f4f4f4; padding:20px;">
+    <table align="center" width="100%" cellpadding="0" cellspacing="0" 
+      style="max-width:600px; background:white; border-radius:10px; padding:20px;">
+
+      <tr>
+        <td align="center" style="padding:10px 0;">
+          <h1 style="color:#4CAF50; margin:0;">FreelanceHub Verification</h1>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:10px 20px; font-size:16px; color:#555;">
+          <p>Hi there 👋,</p>
+          <p>To continue securing your FreelanceHub account, please use the OTP below:</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center" style="padding:20px 0;">
+          <div style="
+            font-size:36px; 
+            font-weight:bold; 
+            letter-spacing:6px; 
+            background:#4CAF50; 
+            color:white; 
+            padding:15px 30px; 
+            border-radius:8px;
+            display:inline-block;">
+            ${otp}
           </div>
-        `,
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:10px 20px; color:#777; font-size:14px;">
+          <p>This OTP is valid for <b>10 minutes</b>.</p>
+          <p>If you didn’t request this, simply ignore this email.</p>
+          <p style="margin-top:15px; color:#FF5722;"><b>⚠️ Don’t see the email?</b>  
+             Check your <b>Spam</b> or <b>Promotions</b> folder.</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center" style="padding-top:25px; color:#aaa; font-size:12px;">
+          <p>© ${new Date().getFullYear()} FreelanceHub. All rights reserved.</p>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+`,
       }),
     });
 
@@ -117,11 +171,15 @@ export const verifyEmail = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ success: false, message: "User not found" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
     }
 
     if (user.isVerified) {
-      return res.status(400).json({ success: false, message: "User already verified" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already verified" });
     }
 
     if (user.otp !== parseInt(otp)) {
@@ -149,7 +207,9 @@ export const verifyEmail = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({ success: true, message: "Email verified successfully" });
+    return res
+      .status(200)
+      .json({ success: true, message: "Email verified successfully" });
   } catch (error) {
     return res.status(500).json({ success: false, message: "Server error" });
   }
@@ -164,12 +224,16 @@ export const UserSignIn = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ success: false, message: "User not found" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     const token = jwt.sign(
@@ -225,10 +289,14 @@ export const logout = async (req, res) => {
 // ===================================================
 export const getprofile = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("-password -otp -otpExpiry");
+    const user = await User.findById(req.userId).select(
+      "-password -otp -otpExpiry"
+    );
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     return res.status(200).json({
@@ -259,7 +327,9 @@ export const isAuthenticated = async (req, res) => {
 
     return res.json({ success: true, userId: decoded.id });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Error checking authentication" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error checking authentication" });
   }
 };
 

@@ -47,8 +47,10 @@ export const getBids = async (req, res) => {
   try {
     const project = await Project.findById(req.params.projectId);
 
-    const bids = await Bid.find({ project: req.params.projectId })
-      .populate("freelancer", "name email profilePic");
+    const bids = await Bid.find({ project: req.params.projectId }).populate(
+      "freelancer",
+      "name email profilePic"
+    );
 
     res.json({
       success: true,
@@ -145,13 +147,45 @@ export const acceptBid = async (req, res) => {
         to: [{ email: user.email }],
         subject: "Your Bid Has Been Accepted",
         htmlContent: `
-          <div>
-            <h2>Hello ${user.name},</h2>
-            <p>Your bid on the project <strong>${project.title}</strong> has been accepted.</p>
-            <p>The client will contact you soon.</p>
-            <p>Regards,<br/>FreelanceHub Team</p>
+  <div style="font-family: Arial, sans-serif; background:#f4f4f4; padding:20px;">
+    <table align="center" width="100%" cellpadding="0" cellspacing="0" 
+      style="max-width:650px; background:white; border-radius:12px; overflow:hidden;">
+
+      <tr>
+        <td style="background:#4CAF50; padding:20px; text-align:center; color:white;">
+          <h1 style="margin:0;">🎉 Congratulations, ${user.name}!</h1>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:20px; font-size:16px; color:#555;">
+          <p>Your bid on the project <b>${project.title}</b> has been</p>
+          <h2 style="color:#4CAF50; margin-top:5px;">ACCEPTED!</h2>
+
+          <p style="margin-top:15px;">
+            The client will reach out to you soon regarding next steps. 
+            Make sure your profile looks professional and updated — this is your moment! 🚀
+          </p>
+
+          <div style="margin-top:25px; padding:15px; border-left:4px solid #4CAF50; background:#f9f9f9;">
+            <p style="margin:0; font-size:15px; color:#444;">
+              💼 <b>Project:</b> ${project.title} <br/>
+              👤 <b>Freelancer:</b> ${user.name}
+            </p>
           </div>
-        `,
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center" style="padding:20px; color:#aaa; font-size:12px;">
+          <p>FreelanceHub — Empowering freelancers to succeed.</p>
+          <p>© ${new Date().getFullYear()} FreelanceHub</p>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+`,
       }),
     });
 
