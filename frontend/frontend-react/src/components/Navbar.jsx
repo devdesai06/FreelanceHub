@@ -70,8 +70,6 @@ function Navbar() {
         {/* DESKTOP LINKS */}
         <ul className="navbar-links">
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/explore">Explore</Link></li>
-          <li><Link to="/services">Services</Link></li>
 
           {/* Show About only when logged in */}
           {userData && (
@@ -114,8 +112,6 @@ function Navbar() {
       {menuOpen && (
         <div className="mobile-menu">
           <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/explore" onClick={() => setMenuOpen(false)}>Explore</Link>
-          <Link to="/services" onClick={() => setMenuOpen(false)}>Services</Link>
 
           {/* About (only logged in) */}
           {userData && (
