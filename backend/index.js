@@ -30,6 +30,7 @@ app.use(
   })
 );
 
+console.log("🔥🔥🔥 SEND OTP FUNCTION EXECUTED — NEW VERSION");
 
 
 // ✅ RATE LIMIT (SAFE FOR PRODUCTION)
