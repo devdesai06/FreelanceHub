@@ -30,8 +30,7 @@ app.use(
   })
 );
 
-// ✅ FIX FOR OTP & PREFLIGHT REQUESTS
-app.options("*", cors());
+
 
 // ✅ RATE LIMIT (SAFE FOR PRODUCTION)
 const limiter = rateLimit({
