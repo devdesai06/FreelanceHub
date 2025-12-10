@@ -48,7 +48,7 @@ export const UserSignUp = async (req, res) => {
 };
 
 // ===================================================
-// SEND OTP USING BREVO HTTP API
+// SEND OTP USING BREVO API
 // ===================================================
 export const sendOtp = async (req, res) => {
   try {
@@ -68,27 +68,31 @@ export const sendOtp = async (req, res) => {
     user.otpExpiry = Date.now() + 10 * 60 * 1000;
     await user.save();
 
-    await fetch("https://api.brevo.com/v3/smtp/email", {
+    const brevoResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
         "api-key": process.env.BREVO_API_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sender: { name: "FreelanceHub", email: "no-reply@freelancehub.com" },
+        sender: { name: "FreelanceHub", email: "devdesai8790@gmail.com" }, 
         to: [{ email }],
         subject: "Verify Your Email - FreelanceHub",
         htmlContent: `
           <div>
-            <h2>FreelanceHub Email Verification</h2>
+            <h2>Email Verification</h2>
             <p>Your OTP is:</p>
             <h1>${otp}</h1>
             <p>This OTP is valid for 10 minutes.</p>
-            <p>If you did not request this, ignore this email.</p>
           </div>
         `,
       }),
     });
+
+    if (!brevoResponse.ok) {
+      const errText = await brevoResponse.text();
+      throw new Error(`Brevo Error: ${errText}`);
+    }
 
     return res.status(200).json({
       success: true,

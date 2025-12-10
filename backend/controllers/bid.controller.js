@@ -131,27 +131,34 @@ export const acceptBid = async (req, res) => {
 
     const user = await User.findById(bid.freelancer);
 
-    // Send email using Brevo HTTP API
-    await fetch("https://api.brevo.com/v3/smtp/email", {
+    // ===================================================
+    // SEND EMAIL USING BREVO HTTP API
+    // ===================================================
+    const brevoResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
         "api-key": process.env.BREVO_API_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        sender: { name: "FreelanceHub", email: "no-reply@freelancehub.com" },
+        sender: { name: "FreelanceHub", email: "devdesai8790@gmail.com" },
         to: [{ email: user.email }],
         subject: "Your Bid Has Been Accepted",
         htmlContent: `
           <div>
             <h2>Hello ${user.name},</h2>
             <p>Your bid on the project <strong>${project.title}</strong> has been accepted.</p>
-            <p>The client will reach out to you soon.</p>
+            <p>The client will contact you soon.</p>
             <p>Regards,<br/>FreelanceHub Team</p>
           </div>
         `,
       }),
     });
+
+    if (!brevoResponse.ok) {
+      const errText = await brevoResponse.text();
+      console.error("Brevo Error:", errText);
+    }
 
     return res.json({
       success: true,
