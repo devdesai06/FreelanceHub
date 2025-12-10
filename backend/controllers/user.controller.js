@@ -53,6 +53,7 @@ export const UserSignUp = async (req, res) => {
 export const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
+console.log("🔥🔥🔥 SEND OTP FUNCTION EXECUTED — NEW VERSION");
 
     const user = await User.findOne({ email });
     if (!user) {
